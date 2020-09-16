@@ -1,16 +1,14 @@
 {-# LANGUAGE EmptyCase #-}
 
+import Data.Foldable (asum)
 import Data.Maybe
 import Data.List
---import Debug.Trace
 import Control.Monad
 
 data Player = X | O deriving (Eq, Show)
 data EndState = Winner Player | Draw | NotOver deriving (Eq, Show)
-type Board = [[Maybe Player]]
-type Coord = (Int, Int)
---type Board = [Maybe Player]
---type Coord = Int
+type Board = [Maybe Player]
+type Coord = Int
 
 
 n :: Int
@@ -18,22 +16,18 @@ n = 1
 
 main :: IO ()
 main = forM_ (map printBoard $ take (10-n) $ playGameAuto partialBoard) putStrLn
-
-playGameAuto :: Board -> [Board]
-playGameAuto init = iterate helper init
 	where
-		helper h = move h $ chooseMove h
+		playGameAuto :: Board -> [Board]
+		playGameAuto init = iterate moveBest init
 
-playGame :: [Coord] -> [Board]
-playGame coords = scanl move emptyBoard coords
+		playGame :: [Coord] -> [Board]
+		playGame coords = scanl move emptyBoard coords
 
-partialBoard :: Board
-partialBoard = last $ playGame $ take n moveList
+		partialBoard :: Board
+		partialBoard = last $ playGame $ take n moveList
 
-moveList :: [Coord]
-moveList = [(0, 0), (0, 1), (1, 0), (0, 2), (1, 1), (1, 2), (2, 0)]
---moveList = [0, 1, 3, 2, 4, 5, 6]
-
+		moveList :: [Coord]
+		moveList = [0, 1, 3, 2, 4, 5, 6]
 
 printBoard :: Board -> String
 printBoard b = printGameState b ++ printBoard' b ++ "\n\n"
@@ -44,9 +38,12 @@ printBoard b = printGameState b ++ printBoard' b ++ "\n\n"
 		
 		printRow :: [Maybe Player] -> String
 		printRow spaces = concat $ map printSpace spaces
-		
-		printBoard' :: [[Maybe Player]] -> String
-		printBoard' rows = intercalate "\n" $ map printRow rows
+
+		getRows :: Board -> [[Maybe Player]]
+		getRows = chunksOf 3
+
+		printBoard' :: Board -> String
+		printBoard' board = intercalate "\n" $ map printRow $ getRows board
 		
 		printGameState :: Board -> String
 		printGameState board = case getEndState board of
@@ -56,24 +53,18 @@ printBoard b = printGameState b ++ printBoard' b ++ "\n\n"
 
 
 emptyBoard :: Board
-emptyBoard = [emptyLine, emptyLine, emptyLine]
-	where emptyLine = [Nothing, Nothing, Nothing]
-
-isBoardRightSize :: Board -> Bool
-isBoardRightSize board = (length board == 3) && and (map (== 3) $ map length board)
+emptyBoard = replicate 9 Nothing
 
 getEmpties :: Board -> [Coord]
-getEmpties board = filter isSpaceEmpty allCoords
+getEmpties board = filter isSpaceEmpty [0..8]
 	where
-		--allCoords = [0..8]
-		allCoords = [(x, y) | x <- [0..2], y <- [0..2]]
-		isSpaceEmpty coord = isNothing $ getCoord board coord
+		isSpaceEmpty coord = isNothing $ board !! coord
 
 countEmpties :: Board -> Int
 countEmpties = length . getEmpties
 
 getCoord :: Board -> Coord -> Maybe Player
-getCoord b (x, y) = (b !! x) !! y
+getCoord = (!!)
 
 getEndState :: Board -> EndState
 getEndState board =
@@ -82,24 +73,18 @@ getEndState board =
 		Nothing -> if (0 == countEmpties board) then Draw else NotOver
 	where
 		possibleWinner :: Maybe Player
-		possibleWinner = foldl maybeOnly Nothing $ map testLine extractedLines
+		possibleWinner = firstJusts $ map testLine extractedLines
 
 		extractedLines :: [[Maybe Player]]
 		extractedLines = map (map (getCoord board)) allLines
 
 		allLines :: [[Coord]]
-		--allLines = [[0, 1, 2], [3, 4, 5], [6, 7, 8],
-		--			[0, 3, 6], [1, 4, 7], [2, 5, 8],
-		--			[0, 4, 8], [2, 4, 6]]
-		allLines = [[(x, y) | x <- [0..2]] | y <- [0..2]] ++
-				   [[(y, x) | x <- [0..2]] | y <- [0..2]] ++
-				   [[(0,0),(1,1),(2,2)], [(2,0),(1,1),(0,2)]]
+		allLines = [[0, 1, 2], [3, 4, 5], [6, 7, 8],
+					[0, 3, 6], [1, 4, 7], [2, 5, 8],
+					[0, 4, 8], [2, 4, 6]]
 
-		maybeOnly :: (Eq a) => Maybe a -> Maybe a -> Maybe a
-		maybeOnly Nothing Nothing = Nothing
-		maybeOnly (Just x) Nothing = Just x
-		maybeOnly Nothing (Just x) = Just x
-		maybeOnly (Just x) (Just y) = if (x == y) then (Just x) else error "should never have two different values"
+		firstJusts :: [Maybe a] -> Maybe a
+		firstJusts = Data.Foldable.asum
 		
 		-- ugly but works
 		testLine :: [Maybe Player] -> Maybe Player
@@ -107,20 +92,13 @@ getEndState board =
 						if (all (== Just O) line) then (Just O) else
 						(Nothing)
 
---isGameOver :: Board -> Bool
---isGameOver board = if (getEndState board == NotOver) then False else True
-
 getCurrentTurn :: Board -> Player
 getCurrentTurn board = if ((countEmpties board) `mod` 2 == 0) then O else X
 
 move :: Board -> Coord -> Board
-move board coord@(x, y) 
+move board coord
 	| isJust $ getCoord board coord = undefined
-	| otherwise = modifyAtIndex board x rowModifier
-	--modifyAtIndex board coord $ const $ Just $ getCurrentTurn board  
-	where
-		--thing1 = modifyAtIndex board x rowModifier
-		rowModifier row = modifyAtIndex row y $ const $ Just $ getCurrentTurn board
+	| otherwise = modifyAtIndex board coord $ const $ Just $ getCurrentTurn board  
 
 
 
@@ -153,12 +131,21 @@ chooseMove board = argmax moveScore $ getEmpties board
 
 
 
--- | isGameOver board = error "I was asked to choose the best move, but the game is over"
---    | otherwise | isGameOver board = error "I was asked to choose the best move, but the game is over"
---        | otherwise 
 
 
 -- Utility funtions        
+
+chunksOf :: Int -> [x] -> [[x]]
+chunksOf n xs
+	| length xs <= n = [xs] 
+	| otherwise = thing1 $ splitAt n xs
+	where
+		thing1 :: ([x], [x]) -> [[x]]
+		thing1 (a, b) = cons a $ chunksOf n b
+
+cons :: a -> [a] -> [a]
+cons x xs = x : xs
+
 modifyAtIndex :: [a] -> Int -> (a -> a) -> [a]
 modifyAtIndex list index modifier 
 	| (index >= length list) || (index < 0) = list -- index out of bounds; could throw error instead?
