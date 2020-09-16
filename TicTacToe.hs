@@ -129,7 +129,7 @@ move board coord@(x, y)
 
 
 moveBest :: Board -> Board
-moveBest board = move board $ chooseMove board
+moveBest board = move board (chooseMove board)
 
 score :: Board -> Player -> Double
 score board player =

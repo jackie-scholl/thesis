@@ -9,11 +9,31 @@
 
 (define empty-board (make-list 9 absent))
 
+;(define empty-board (make-list 3 (make-list 3 absent)))
+
 (define (rows board)
   (list (take board 3) (take (drop board 3) 3) (drop board 6)))
 
 (define (count-player board player)
   (count (λ (x) (equal? x (present player))) board))
+
+;(define (lines-list)
+;	(define (zip x y) (map cons x y))
+;	(define (rep3 x) (make-list 3 x))
+;	(define firstThree (build-list 3 values))
+;	(define a (rep3 firstThree))
+;	(let (
+;		;[a (rep3 firstThree)] 
+;		[b (build-list 3 rep3)] 
+;		[c (list firstThree firstThree)] 
+;		[d (list firstThree (list 2 1 0))]
+;		)
+;		(map zip (append a b c) (append b a d))
+;	)
+;)
+
+;(define listed-lines (lines-list))
+
 
 (define lines-list (list
                     (list 0 1 2) (list 3 4 5) (list 6 7 8) ; horizontal lines
@@ -62,15 +82,11 @@
 
 
 
-(define (score-helper board player)
-  (score (move board (choose-move board)) player))
-
 (define (move-best board)
     (move board (choose-move board)))
 
 (define (score board player)
   (define end-state (get-end-state board))
-  (define winner (check-winner board))
   (define (recursive-score) (* 0.9 (score (move-best board) player)))
   (match end-state
 	 ['Draw 0]
