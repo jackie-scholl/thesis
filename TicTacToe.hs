@@ -10,32 +10,6 @@ data EndState = Winner Player | Draw | NotOver deriving (Eq, Show)
 type Board = [Maybe Player]
 type Coord = Int
 
--- ----------------------------------------------------------------------------|---------|---------|
-
-
-main :: IO ()
-main = forM_ thing1 putStrLn
-	where
-		n :: Int
-		n = 1
-
-		thing1 :: [String]
-		thing1 = map printBoard $ take (10-n) $ playGameAuto partialBoard
-		
-		playGameAuto :: Board -> [Board]
-		playGameAuto init = iterate moveBest init
-
-		playGame :: [Coord] -> [Board]
-		playGame coords = scanl move emptyBoard coords
-
-		partialBoard :: Board
-		partialBoard = last $ playGame $ take n moveList
-
-		moveList :: [Coord]
-		moveList = [0, 1, 3, 2, 4, 5, 6]
-
-
-
 emptyBoard :: Board
 emptyBoard = replicate 9 Nothing
 
@@ -128,6 +102,26 @@ chooseMove board = argmax moveScore $ getEmpties board
 
 
 
+main :: IO ()
+main = forM_ thing1 putStrLn
+	where
+		n :: Int
+		n = 1
+
+		thing1 :: [String]
+		thing1 = map printBoard $ take (10-n) $ playGameAuto partialBoard
+		
+		playGameAuto :: Board -> [Board]
+		playGameAuto init = iterate moveBest init
+
+		playGame :: [Coord] -> [Board]
+		playGame coords = scanl move emptyBoard coords
+
+		partialBoard :: Board
+		partialBoard = last $ playGame $ take n moveList
+
+		moveList :: [Coord]
+		moveList = [0, 1, 3, 2, 4, 5, 6]
 
 
 
