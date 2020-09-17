@@ -12,12 +12,13 @@ type Coord = Int
 
 -------------------------------------------------------------------------------|---------|---------|
 
-n :: Int
-n = 1
 
 main :: IO ()
 main = forM_ thing1 putStrLn
 	where
+		n :: Int
+		n = 1
+
 		thing1 :: [String]
 		thing1 = map printBoard $ take (10-n) $ playGameAuto partialBoard
 		
@@ -32,6 +33,25 @@ main = forM_ thing1 putStrLn
 
 		moveList :: [Coord]
 		moveList = [0, 1, 3, 2, 4, 5, 6]
+
+
+
+emptyBoard :: Board
+emptyBoard = replicate 9 Nothing
+
+getEmpties :: Board -> [Coord]
+getEmpties board = filter isSpaceEmpty [0..8]
+	where
+		isSpaceEmpty coord = isNothing $ board !! coord
+
+countEmpties :: Board -> Int
+countEmpties = length . getEmpties
+
+getCoord :: Board -> Coord -> Maybe Player
+getCoord = (!!)
+
+getCurrentTurn :: Board -> Player
+getCurrentTurn board = if ((countEmpties board) `mod` 2 == 0) then O else X
 
 printBoard :: Board -> String
 printBoard b = printGameState b ++ printBoard' b ++ "\n\n"
@@ -55,21 +75,6 @@ printBoard b = printGameState b ++ printBoard' b ++ "\n\n"
 				++ show (getCurrentTurn board) ++ "\n"
 			Draw     -> "Game ended in a draw.\n"
 			Winner w -> "Player " ++ show w ++ " won!\n"
-
-
-emptyBoard :: Board
-emptyBoard = replicate 9 Nothing
-
-getEmpties :: Board -> [Coord]
-getEmpties board = filter isSpaceEmpty [0..8]
-	where
-		isSpaceEmpty coord = isNothing $ board !! coord
-
-countEmpties :: Board -> Int
-countEmpties = length . getEmpties
-
-getCoord :: Board -> Coord -> Maybe Player
-getCoord = (!!)
 
 getEndState :: Board -> EndState
 getEndState board = result
@@ -98,8 +103,6 @@ getEndState board = result
 			Just winner -> Winner winner -- chicken dinner
 			Nothing -> if (0 == countEmpties board) then Draw else NotOver
 
-getCurrentTurn :: Board -> Player
-getCurrentTurn board = if ((countEmpties board) `mod` 2 == 0) then O else X
 
 move :: Board -> Coord -> Board
 move board coord

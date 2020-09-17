@@ -9,9 +9,9 @@
 
 (define empty-board (make-list 9 absent))
 
-(define (count-player board player)
-	(count (λ (x) (equal? x (present player))) board)
-)
+;(define (count-player board player)
+;	(count (λ (x) (equal? x (present player))) board)
+;)
 
 (define (get-empties board)
 	(filter (λ (x) (absent? (list-ref board x))) (range 9))
