@@ -13,24 +13,6 @@
 	(count (λ (x) (equal? x (present player))) board)
 )
 
-(define lines-list (list
-					(list 0 1 2) (list 3 4 5) (list 6 7 8) ; horizontal lines
-					(list 0 3 6) (list 1 4 7) (list 2 5 8) ; vertical lines
-					(list 0 4 8) (list 2 4 6) ; diagonal lines
-					)
-)
-
-(define (test-line to-test) (match to-test
-							  [(list 'X 'X 'X) 'X]
-							  [(list 'O 'O 'O) 'O]
-							  [(list a b c) absent]))
-
-(define (extract-lines board)
-	(map 
-		(λ (temp-line) (map (λ (x) (list-ref board x)) temp-line)) 
-		lines-list
-	)
-)
 
 (define (get-empties board)
 	(filter (λ (x) (absent? (list-ref board x))) (range 9))
@@ -52,15 +34,34 @@
 
 
 (define (get-end-state board)
-	(define (winner-helper board) (filter-not absent? (map test-line (extract-lines board))))
-	(define (check-winner board)
-		(define winner1 (winner-helper board))
-		(if (null? winner1) absent (car winner1))
+	(define lines-list
+		(list
+			(list 0 1 2) (list 3 4 5) (list 6 7 8) ; horizontal lines
+			(list 0 3 6) (list 1 4 7) (list 2 5 8) ; vertical lines
+			(list 0 4 8) (list 2 4 6) ; diagonal lines
+		)
 	)
-	(define winner2 (check-winner board))
+
+	(define (test-line to-test)
+		(match to-test
+			[(list 'X 'X 'X) 'X]
+			[(list 'O 'O 'O) 'O]
+			[(list a b c) absent]
+		)
+	)
+
+	(define (extract-lines board)
+		(map 
+			(λ (temp-line) (map (λ (x) (list-ref board x)) temp-line)) 
+			lines-list
+		)
+	)
+	
+	(define winner-list (filter-not absent? (map test-line (extract-lines board))))
+
 	(if
-		(not (absent? winner2))
-		winner2
+		(not (null? winner-list))
+		(car winner-list)
 		(if (eq? 0 (count-empties board)) 'Draw 'NotOver)
 	)
 )
@@ -113,7 +114,7 @@
 
 (display "\n")
 (display (print-board sample-board))
-(extract-lines sample-board)
+;(extract-lines sample-board)
 
 ;(check-winner sample-board)
 
