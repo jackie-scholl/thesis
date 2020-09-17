@@ -10,13 +10,17 @@ data EndState = Winner Player | Draw | NotOver deriving (Eq, Show)
 type Board = [Maybe Player]
 type Coord = Int
 
+-------------------------------------------------------------------------------|---------|---------|
 
 n :: Int
 n = 1
 
 main :: IO ()
-main = forM_ (map printBoard $ take (10-n) $ playGameAuto partialBoard) putStrLn
+main = forM_ thing1 putStrLn
 	where
+		thing1 :: [String]
+		thing1 = map printBoard $ take (10-n) $ playGameAuto partialBoard
+		
 		playGameAuto :: Board -> [Board]
 		playGameAuto init = iterate moveBest init
 
@@ -32,6 +36,9 @@ main = forM_ (map printBoard $ take (10-n) $ playGameAuto partialBoard) putStrLn
 printBoard :: Board -> String
 printBoard b = printGameState b ++ printBoard' b ++ "\n\n"
 	where
+		getRows :: Board -> [[Maybe Player]]
+		getRows = chunksOf 3
+		
 		printSpace :: Maybe Player -> String
 		printSpace (Just p) = show p
 		printSpace (Nothing) = "_"
@@ -39,15 +46,13 @@ printBoard b = printGameState b ++ printBoard' b ++ "\n\n"
 		printRow :: [Maybe Player] -> String
 		printRow spaces = concat $ map printSpace spaces
 
-		getRows :: Board -> [[Maybe Player]]
-		getRows = chunksOf 3
-
 		printBoard' :: Board -> String
 		printBoard' board = intercalate "\n" $ map printRow $ getRows board
 		
 		printGameState :: Board -> String
 		printGameState board = case getEndState board of
-			NotOver  -> "Game is not yet over; current turn: " ++ show (getCurrentTurn board) ++ "\n"
+			NotOver  -> "Game is not yet over; current turn: "
+				++ show (getCurrentTurn board) ++ "\n"
 			Draw     -> "Game ended in a draw.\n"
 			Winner w -> "Player " ++ show w ++ " won!\n"
 
@@ -79,9 +84,9 @@ getEndState board =
 		extractedLines = map (map (getCoord board)) allLines
 
 		allLines :: [[Coord]]
-		allLines = [[0, 1, 2], [3, 4, 5], [6, 7, 8],
-					[0, 3, 6], [1, 4, 7], [2, 5, 8],
-					[0, 4, 8], [2, 4, 6]]
+		allLines = [[0, 1, 2], [3, 4, 5], [6, 7, 8], -- horizontals
+					[0, 3, 6], [1, 4, 7], [2, 5, 8], --verticals
+					[0, 4, 8], [2, 4, 6]] -- diagonals
 
 		firstJusts :: [Maybe a] -> Maybe a
 		firstJusts = Data.Foldable.asum
@@ -100,12 +105,6 @@ move board coord
 	| isJust $ getCoord board coord = undefined
 	| otherwise = modifyAtIndex board coord $ const $ Just $ getCurrentTurn board  
 
-
-
-
-
-
-
 moveBest :: Board -> Board
 moveBest board = move board (chooseMove board)
 
@@ -122,11 +121,6 @@ score board player =
 chooseMove :: Board -> Coord
 chooseMove board = argmax moveScore $ getEmpties board
 	where moveScore coord = score (move board coord) (getCurrentTurn board)
-
-
-
-
-
 
 
 
@@ -173,14 +167,3 @@ argmax f (y:ys) = argmaxHelper y (f y) f ys
 -- It feels fuzzy in some sense
 -- I confused checkWinner() with a game over check at first, didn't notice until
 -- AI started throwing errors which were difficult to debug
-
-
-
-
-
-
-
-
-
-
-
