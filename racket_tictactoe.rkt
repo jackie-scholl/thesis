@@ -7,11 +7,11 @@
 
 ; 'X and 'O
 
-(define empty-board (make-list 9 absent))
-
 ;(define (count-player board player)
 ;	(count (λ (x) (equal? x (present player))) board)
 ;)
+
+(define empty-board (make-list 9 absent))
 
 (define (get-empties board)
 	(filter (λ (x) (absent? (list-ref board x))) (range 9))
@@ -28,13 +28,15 @@
 	(define (rows board) (chunks-of 3 board))
 
 	(define (print-space p) (match p ['X "X"] ['O "O"] [nothing "_"]))
-	(define (print-row   row  ) (string-join (map print-space row)))
+
+	(define (print-row row) (string-join (map print-space row)))
+
 	(string-join (map print-row (rows board)) "\n" #:after-last "\n")
 )
 
 
 (define (get-end-state board)
-	(define lines-list
+	(define all-lines
 		(list
 			(list 0 1 2) (list 3 4 5) (list 6 7 8) ; horizontal lines
 			(list 0 3 6) (list 1 4 7) (list 2 5 8) ; vertical lines
@@ -50,17 +52,28 @@
 		)
 	)
 
-	(define (extract-lines board)
+	(define (extracted-lines)
 		(define (thing1 x) (list-ref board x))
 		(define (thing2 temp-line) (map thing1 temp-line))
-		(map thing2 lines-list)
+		(map thing2 all-lines)
+	)
+
+	(define (first-present my-line)
+		(define (thing3 x)
+			(if
+				(null? x)
+				absent
+				(car x)
+			)
+		)
+		(thing3 (filter-not absent? my-line))
 	)
 	
-	(define winner-list (filter-not absent? (map test-line (extract-lines board))))
+	(define possible-winner (first-present (map test-line (extracted-lines))))
 
 	(if
-		(not (null? winner-list))
-		(car winner-list)
+		(not (absent? possible-winner))
+		possible-winner
 		(if (eq? 0 (count-empties board)) 'Draw 'NotOver)
 	)
 )
