@@ -13,12 +13,15 @@
 	(count (λ (x) (equal? x (present player))) board)
 )
 
-
 (define (get-empties board)
 	(filter (λ (x) (absent? (list-ref board x))) (range 9))
 )
 
 (define (count-empties board) (length (get-empties board)))
+
+(define (get-current-turn board)
+	(if (= (modulo (count-empties board) 2) 0) 'O 'X))
+
 
 (define (print-board board)
 	(define (chunks-of n list) (sequence->list (in-slice n list)))
@@ -28,9 +31,6 @@
 	(define (print-row   row  ) (string-join (map print-space row)))
 	(string-join (map print-row (rows board)) "\n" #:after-last "\n")
 )
-
-
-
 
 
 (define (get-end-state board)
@@ -51,10 +51,9 @@
 	)
 
 	(define (extract-lines board)
-		(map 
-			(λ (temp-line) (map (λ (x) (list-ref board x)) temp-line)) 
-			lines-list
-		)
+		(define (thing1 x) (list-ref board x))
+		(define (thing2 temp-line) (map thing1 temp-line))
+		(map thing2 lines-list)
 	)
 	
 	(define winner-list (filter-not absent? (map test-line (extract-lines board))))
@@ -65,9 +64,6 @@
 		(if (eq? 0 (count-empties board)) 'Draw 'NotOver)
 	)
 )
-
-(define (get-current-turn board)
-	(if (= (modulo (count-empties board) 2) 0) 'O 'X))
 
 (define (move board index)
 	(if (present? (list-ref board index))

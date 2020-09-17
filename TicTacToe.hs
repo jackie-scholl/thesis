@@ -72,30 +72,31 @@ getCoord :: Board -> Coord -> Maybe Player
 getCoord = (!!)
 
 getEndState :: Board -> EndState
-getEndState board =
-	case possibleWinner of
-		Just winner -> Winner winner -- chicken dinner
-		Nothing -> if (0 == countEmpties board) then Draw else NotOver
+getEndState board = result
 	where
-		possibleWinner :: Maybe Player
-		possibleWinner = firstJusts $ map testLine extractedLines
-
-		extractedLines :: [[Maybe Player]]
-		extractedLines = map (map (getCoord board)) allLines
-
 		allLines :: [[Coord]]
 		allLines = [[0, 1, 2], [3, 4, 5], [6, 7, 8], -- horizontals
 					[0, 3, 6], [1, 4, 7], [2, 5, 8], --verticals
 					[0, 4, 8], [2, 4, 6]] -- diagonals
 
-		firstJusts :: [Maybe a] -> Maybe a
-		firstJusts = Data.Foldable.asum
-		
 		-- ugly but works
 		testLine :: [Maybe Player] -> Maybe Player
 		testLine line = if (all (== Just X) line) then (Just X) else
 						if (all (== Just O) line) then (Just O) else
 						(Nothing)
+
+		extractedLines :: [[Maybe Player]]
+		extractedLines = map (map (getCoord board)) allLines
+
+		firstJusts :: [Maybe a] -> Maybe a
+		firstJusts = Data.Foldable.asum
+
+		possibleWinner :: Maybe Player
+		possibleWinner = firstJusts $ map testLine extractedLines
+
+		result = case possibleWinner of
+			Just winner -> Winner winner -- chicken dinner
+			Nothing -> if (0 == countEmpties board) then Draw else NotOver
 
 getCurrentTurn :: Board -> Player
 getCurrentTurn board = if ((countEmpties board) `mod` 2 == 0) then O else X
