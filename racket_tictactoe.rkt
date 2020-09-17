@@ -20,7 +20,8 @@
 (define (count-empties board) (length (get-empties board)))
 
 (define (get-current-turn board)
-	(if (= (modulo (count-empties board) 2) 0) 'O 'X))
+	(if (= (modulo (count-empties board) 2) 0) 'O 'X)
+)
 
 
 (define (print-board board)
@@ -31,7 +32,17 @@
 
 	(define (print-row row) (string-join (map print-space row)))
 
-	(string-join (map print-row (rows board)) "\n" #:after-last "\n")
+	(define print-board2 (string-join (map print-row (rows board)) "\n" #:after-last "\n"))
+
+	(define game-state
+		(match (get-end-state board)
+			['Draw "Game ended in a draw\n"]
+			['NotOver (string-append "Game is not yet over; current turn " (symbol->string (get-current-turn board)) " good for them\n")]
+			[winner (string-append "some player won: " (symbol->string winner) " wee!!\n")]
+		)
+	)
+
+	(string-append game-state print-board2 "\n")
 )
 
 
@@ -107,7 +118,7 @@
 )
 
 
-
+;; MAIN:
 (define sample-inputs (range 9))
 (define sample-board (reduce-all (make-fold-reducer (λ (cur-board item) (move cur-board item)) empty-board) sample-inputs))
 
