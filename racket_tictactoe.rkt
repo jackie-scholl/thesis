@@ -97,16 +97,15 @@
 )
 
 
-(define (move-best board)
-	(move board (choose-move board)))
+(define (move-best board) (move board (choose-move board)))
 
 (define (score board player)
 	(define end-state (get-end-state board))
 	(define (recursive-score) (* 0.9 (score (move-best board) player)))
 	(match end-state
+		[winner (if (eq? winner player) 1 -1)]
 		['Draw 0]
 		['NotOver (recursive-score)]
-		[winner (if (eq? winner player) 1 -1)]
 	)
 )
 
