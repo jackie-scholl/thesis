@@ -64,13 +64,13 @@ getEndState board =
 
 		-- ugly but works
 		testLine :: [Maybe Player] -> Maybe Player
-		testLine line =
-			if (all (== Just X) line) then (Just X) else
-			if (all (== Just O) line) then (Just O) else
-			(Nothing)
-
-
-
+		testLine line = case line of
+			(Just X : Just X : Just X : []) -> Just X
+			(Just O : Just O : Just O : []) -> Just O
+			_ -> Nothing
+			--if (all (== Just X) line) then (Just X) else
+			--if (all (== Just O) line) then (Just O) else
+			--(Nothing)
 
 		extractedLines :: [[Maybe Player]]
 		extractedLines = map (map (getCoord board)) allLines
