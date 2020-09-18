@@ -1,9 +1,6 @@
-{-# LANGUAGE EmptyCase #-}
-
 import Data.Foldable (asum)
 import Data.Maybe
 import Data.List
-import Control.Monad
 
 data Player = X | O deriving (Eq, Show)
 data EndState = Winner Player | Draw | NotOver deriving (Eq, Show)
@@ -103,26 +100,16 @@ chooseMove board = argmax moveScore $ getEmpties board
 
 
 main :: IO ()
-main = forM_ thing1 putStrLn
+main = printGame
 	where
-		n :: Int
-		n = 1
+		initialBoard :: Board
+		initialBoard = move emptyBoard 0
 
-		thing1 :: [String]
-		thing1 = map printBoard $ take (10-n) $ playGameAuto partialBoard
-		
-		playGameAuto :: Board -> [Board]
-		playGameAuto init = iterate moveBest init
+		gameSequence :: [Board]
+		gameSequence = take 9 $ iterate moveBest $ initialBoard
 
-		playGame :: [Coord] -> [Board]
-		playGame coords = scanl move emptyBoard coords
-
-		partialBoard :: Board
-		partialBoard = last $ playGame $ take n moveList
-
-		moveList :: [Coord]
-		moveList = [0, 1, 3, 2, 4, 5, 6]
-
+		printGame :: IO ()
+		printGame = mapM_ putStrLn $ map printBoard $ gameSequence
 
 
 -- Utility funtions        
