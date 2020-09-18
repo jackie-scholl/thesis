@@ -11,10 +11,13 @@
 ;	(count (λ (x) (equal? x (present player))) board)
 ;)
 
+
 (define empty-board (make-list 9 absent))
 
+
 (define (get-empties board)
-	(filter (λ (x) (absent? (list-ref board x))) (range 9))
+	(define (isSpaceEmpty x) (absent? (list-ref board x)))
+	(filter isSpaceEmpty (range 9))
 )
 
 (define (count-empties board) (length (get-empties board)))
@@ -24,11 +27,17 @@
 )
 
 
+
+
 (define (print-board board)
+
+
 	(define (chunks-of n list) (sequence->list (in-slice n list)))
 	(define (rows board) (chunks-of 3 board))
 
-	(define (print-space p) (match p ['X "X"] ['O "O"] [nothing "_"]))
+	(define (print-space p) 
+		(match p ['X "X"] ['O "O"] [nothing "_"])
+	)
 
 	(define (print-row row) (string-join (map print-space row)))
 
@@ -96,10 +105,11 @@
 	)
 )
 
-
 (define (move-best board) (move board (choose-move board)))
 
+
 (define (score board player)
+
 	(define end-state (get-end-state board))
 	(define (recursive-score) (* 0.9 (score (move-best board) player)))
 	(match end-state
@@ -146,5 +156,26 @@
 
 (define mystream (stream-take (iterate helper sample3) 9))
 (for ([board (in-stream mystream)]) (display (print-board board)))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

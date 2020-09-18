@@ -7,26 +7,31 @@ data EndState = Winner Player | Draw | NotOver deriving (Eq, Show)
 type Board = [Maybe Player]
 type Coord = Int
 
+
+
+
+
 emptyBoard :: Board
 emptyBoard = replicate 9 Nothing
 
 getEmpties :: Board -> [Coord]
-getEmpties board = filter isSpaceEmpty [0..8]
-	where
-		isSpaceEmpty coord = isNothing $ board !! coord
+getEmpties board =
+	let isSpaceEmpty coord = isNothing $ board !! coord
+	in  filter isSpaceEmpty [0..8]
 
 countEmpties :: Board -> Int
 countEmpties = length . getEmpties
 
-getCoord :: Board -> Coord -> Maybe Player
-getCoord = (!!)
-
 getCurrentTurn :: Board -> Player
 getCurrentTurn board = if ((countEmpties board) `mod` 2 == 0) then O else X
 
+getCoord :: Board -> Coord -> Maybe Player
+getCoord = (!!)
+
+
 printBoard :: Board -> String
-printBoard b = printGameState b ++ printBoard' b ++ "\n\n"
-	where
+printBoard b =
+	let
 		getRows :: Board -> [[Maybe Player]]
 		getRows = chunksOf 3
 		
@@ -46,10 +51,12 @@ printBoard b = printGameState b ++ printBoard' b ++ "\n\n"
 				++ show (getCurrentTurn board) ++ "\n"
 			Draw     -> "Game ended in a draw.\n"
 			Winner w -> "Player " ++ show w ++ " won!\n"
+	in
+		printGameState b ++ printBoard' b ++ "\n\n"
 
 getEndState :: Board -> EndState
-getEndState board = result
-	where
+getEndState board =
+	let
 		allLines :: [[Coord]]
 		allLines = [[0, 1, 2], [3, 4, 5], [6, 7, 8], -- horizontals
 					[0, 3, 6], [1, 4, 7], [2, 5, 8], --verticals
@@ -57,28 +64,45 @@ getEndState board = result
 
 		-- ugly but works
 		testLine :: [Maybe Player] -> Maybe Player
-		testLine line = if (all (== Just X) line) then (Just X) else
-						if (all (== Just O) line) then (Just O) else
-						(Nothing)
+		testLine line =
+			if (all (== Just X) line) then (Just X) else
+			if (all (== Just O) line) then (Just O) else
+			(Nothing)
+
+
+
 
 		extractedLines :: [[Maybe Player]]
 		extractedLines = map (map (getCoord board)) allLines
 
+
+
+
+
 		firstJusts :: [Maybe a] -> Maybe a
 		firstJusts = Data.Foldable.asum
 
+
+
+
+
+
+
 		possibleWinner :: Maybe Player
 		possibleWinner = firstJusts $ map testLine extractedLines
-
-		result = case possibleWinner of
+		
+	in case possibleWinner of
 			Just winner -> Winner winner -- chicken dinner
 			Nothing -> if (0 == countEmpties board) then Draw else NotOver
+
 
 
 move :: Board -> Coord -> Board
 move board coord
 	| isJust $ getCoord board coord = undefined
 	| otherwise = modifyAtIndex board coord $ const $ Just $ getCurrentTurn board  
+
+
 
 moveBest :: Board -> Board
 moveBest board = move board (chooseMove board)
@@ -89,19 +113,22 @@ score board player =
 		endState = getEndState board
 		recursiveScore = 0.9 * score (moveBest board) player
 	in case endState of
-		(Winner x)  -> if (x == player) then 1 else -1
 		Draw -> 0
 		NotOver -> recursiveScore
+		(Winner x)  -> if (x == player) then 1 else -1
 
 chooseMove :: Board -> Coord
-chooseMove board = argmax moveScore $ getEmpties board
-	where moveScore coord = score (move board coord) (getCurrentTurn board)
+chooseMove board =
+	let
+		moveScore coord = score (move board coord) (getCurrentTurn board)
+	in
+		argmax moveScore $ getEmpties board
 
 
 
 main :: IO ()
-main = printGame
-	where
+main = 
+	let
 		initialBoard :: Board
 		initialBoard = move emptyBoard 0
 
@@ -110,7 +137,8 @@ main = printGame
 
 		printGame :: IO ()
 		printGame = mapM_ putStrLn $ map printBoard $ gameSequence
-
+	in
+		printGame
 
 -- Utility funtions        
 
