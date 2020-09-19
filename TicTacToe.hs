@@ -8,9 +8,6 @@ type Board = [Maybe Player]
 type Coord = Int
 
 
-
-
-
 emptyBoard :: Board
 emptyBoard = replicate 9 Nothing
 
@@ -27,7 +24,6 @@ getCurrentTurn board = if ((countEmpties board) `mod` 2 == 0) then O else X
 
 getCoord :: Board -> Coord -> Maybe Player
 getCoord = (!!)
-
 
 printBoard :: Board -> String
 printBoard b =
@@ -47,7 +43,7 @@ printBoard b =
 		
 		printGameState :: Board -> String
 		printGameState board = case getEndState board of
-			NotOver  -> "Game is not yet over; current turn: "
+			,NotOver  -> "Game is not yet over; current turn: "
 				++ show (getCurrentTurn board) ++ "\n"
 			Draw     -> "Game ended in a draw.\n"
 			Winner w -> "Player " ++ show w ++ " won!\n"
@@ -83,11 +79,6 @@ getEndState board =
 		firstJusts = Data.Foldable.asum
 
 
-
-
-
-
-
 		possibleWinner :: Maybe Player
 		possibleWinner = firstJusts $ map testLine extractedLines
 		
@@ -100,7 +91,7 @@ getEndState board =
 move :: Board -> Coord -> Board
 move board coord
 	| isJust $ getCoord board coord = undefined
-	| otherwise = modifyAtIndex board coord $ const $ Just $ getCurrentTurn board  
+	| otherwise = modifyAtIndex board coord $ const $ Just $ getCurrentTurn board
 
 
 

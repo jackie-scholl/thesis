@@ -7,10 +7,6 @@
 
 ; 'X and 'O
 
-;(define (count-player board player)
-;	(count (λ (x) (equal? x (present player))) board)
-;)
-
 
 (define empty-board (make-list 9 absent))
 
@@ -22,10 +18,10 @@
 
 (define (count-empties board) (length (get-empties board)))
 
+
 (define (get-current-turn board)
 	(if (= (modulo (count-empties board) 2) 0) 'O 'X)
 )
-
 
 
 
@@ -36,7 +32,7 @@
 	(define (rows board) (chunks-of 3 board))
 
 	(define (print-space p) 
-		(match p ['X "X"] ['O "O"] [nothing "_"])
+		(match p [(present 'X) "X"] [(present 'O) "O"] [absent "_"])
 	)
 
 	(define (print-row row) (string-join (map print-space row)))
@@ -45,15 +41,15 @@
 
 	(define game-state
 		(match (get-end-state board)
+			['NotOver (string-append "Game is not yet over; current turn " 
+							(symbol->string (get-current-turn board)) "\n")]
 			['Draw "Game ended in a draw\n"]
-			['NotOver (string-append "Game is not yet over; current turn " (symbol->string (get-current-turn board)) " good for them\n")]
 			[winner (string-append "some player won: " (symbol->string winner) " wee!!\n")]
 		)
 	)
 
 	(string-append game-state print-board2 "\n")
 )
-
 
 (define (get-end-state board)
 	(define all-lines
@@ -66,8 +62,9 @@
 
 	(define (test-line to-test)
 		(match to-test
-			[(list 'X 'X 'X) 'X]
-			[(list 'O 'O 'O) 'O]
+			[(list (present 'X) (present 'X) (present 'X)) 'X]
+			[(list (present 'O) (present 'O) (present 'O)) 'O]
+			;[(list 'O 'O 'O) 'O]
 			[(list a b c) absent]
 		)
 	)
@@ -79,13 +76,7 @@
 	)
 
 	(define (first-present my-line)
-		(define (thing3 x)
-			(if
-				(null? x)
-				absent
-				(car x)
-			)
-		)
+		(define (thing3 x) (if (null? x) absent (car x)))
 		(thing3 (filter-not absent? my-line))
 	)
 	
@@ -101,7 +92,7 @@
 (define (move board index)
 	(if (present? (list-ref board index))
 		(display "err")
-		(list-set board index (get-current-turn board))
+		(list-set board index (present (get-current-turn board)))
 	)
 )
 
