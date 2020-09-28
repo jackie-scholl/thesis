@@ -43,7 +43,7 @@ printBoard b =
 		
 		printGameState :: Board -> String
 		printGameState board = case getEndState board of
-			,NotOver  -> "Game is not yet over; current turn: "
+			NotOver  -> "Game is not yet over; current turn: "
 				++ show (getCurrentTurn board) ++ "\n"
 			Draw     -> "Game ended in a draw.\n"
 			Winner w -> "Player " ++ show w ++ " won!\n"
