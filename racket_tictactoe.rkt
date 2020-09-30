@@ -16,7 +16,7 @@
 	(filter isSpaceEmpty (range 9))
 )
 
-(define (count-empties board) (get-empties board))
+(define (count-empties board) (length (get-empties board)))
 
 
 (define (get-current-turn board)
