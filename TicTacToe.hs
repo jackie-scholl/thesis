@@ -8,24 +8,24 @@ type Board = [Maybe Player]
 type Coord = Int
 
 
---emptyBoard :: Board
+emptyBoard :: Board
 emptyBoard = replicate 9 Nothing
 
---getEmpties :: Board -> [Coord]
+getEmpties :: Board -> [Coord]
 getEmpties board =
 	let isSpaceEmpty coord = isNothing $ board !! coord
 	in  filter isSpaceEmpty [0..8]
 
---countEmpties :: Board -> Int
+countEmpties :: Board -> Int
 countEmpties = length . getEmpties
 
---getCurrentTurn :: Board -> Player
+getCurrentTurn :: Board -> Player
 getCurrentTurn board = if ((countEmpties board) `mod` 2 == 0) then O else X
 
---getCoord :: Board -> Coord -> Maybe Player
+getCoord :: Board -> Coord -> Maybe Player
 getCoord = (!!)
 
---printBoard :: Board -> String
+printBoard :: Board -> String
 printBoard b =
 	let
 		getRows :: Board -> [[Maybe Player]]
@@ -50,16 +50,16 @@ printBoard b =
 	in
 		printGameState b ++ printBoard' b ++ "\n\n"
 
---getEndState :: Board -> EndState
+getEndState :: Board -> EndState
 getEndState board =
 	let
---		allLines :: [[Coord]]
+		allLines :: [[Coord]]
 		allLines = [[0, 1, 2], [3, 4, 5], [6, 7, 8], -- horizontals
 					[0, 3, 6], [1, 4, 7], [2, 5, 8], --verticals
 					[0, 4, 8], [2, 4, 6]] -- diagonals
 
 		-- ugly but works
---		testLine :: [Maybe Player] -> Maybe Player
+		testLine :: [Maybe Player] -> Maybe Player
 		testLine line = case line of
 			(Just X : Just X : Just X : []) -> Just X
 			(Just O : Just O : Just O : []) -> Just O
@@ -68,15 +68,18 @@ getEndState board =
 			--if (all (== Just O) line) then (Just O) else
 			--(Nothing)
 
---		extractedLines :: [[Maybe Player]]
+		extractedLines :: [[Maybe Player]]
 		extractedLines = map (map (getCoord board)) allLines
 
 
---		firstJusts :: [Maybe a] -> Maybe a
+
+
+
+		firstJusts :: [Maybe a] -> Maybe a
 		firstJusts = Data.Foldable.asum
 
 
---		possibleWinner :: Maybe Player
+		possibleWinner :: Maybe Player
 		possibleWinner = firstJusts $ map testLine extractedLines
 		
 	in case possibleWinner of
@@ -84,16 +87,18 @@ getEndState board =
 			Nothing -> if (0 == countEmpties board) then Draw else NotOver
 
 
---move :: Board -> Coord -> Board
+
+move :: Board -> Coord -> Board
 move board coord
 	| isJust $ getCoord board coord = undefined
 	| otherwise = modifyAtIndex board coord $ const $ Just $ getCurrentTurn board
 
 
---moveBest :: Board -> Board
+
+moveBest :: Board -> Board
 moveBest board = move board (chooseMove board)
 
---score :: Board -> Player -> Double
+score :: Board -> Player -> Double
 score board player =
 	let
 		endState = getEndState board
@@ -103,7 +108,7 @@ score board player =
 		NotOver -> recursiveScore
 		(Winner x)  -> if (x == player) then 1 else -1
 
---chooseMove :: Board -> Coord
+chooseMove :: Board -> Coord
 chooseMove board =
 	let
 		moveScore coord = score (move board coord) (getCurrentTurn board)
