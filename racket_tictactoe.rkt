@@ -54,7 +54,7 @@
 (define (get-end-state board)
 	(define all-lines
 		(list
-			(list 0 1 2) (list 3 4 5) (list 6 7 8) ; horizontal lines
+			(list 0 2 2) (list 3 4 5) (list 6 7 8) ; horizontal lines
 			(list 0 3 6) (list 1 4 7) (list 2 5 8) ; vertical lines
 			(list 0 4 8) (list 2 4 6) ; diagonal lines
 		)
