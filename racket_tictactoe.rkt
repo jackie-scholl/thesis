@@ -41,10 +41,10 @@
 
 	(define game-state
 		(match (get-end-state board)
-			[winner (string-append "some player won: " (symbol->string winner) " wee!!\n")]
 			['NotOver (string-append "Game is not yet over; current turn " 
 							(symbol->string (get-current-turn board)) "\n")]
 			['Draw "Game ended in a draw\n"]
+			[winner (string-append "some player won: " (symbol->string winner) " wee!!\n")]
 		)
 	)
 
