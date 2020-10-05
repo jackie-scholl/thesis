@@ -6,42 +6,42 @@ X O X
 
 0
 0
-Game is not yet over; current turn X
+some player won: NotOver wee!!
 X _ _
 _ O _
 _ _ _
 
-Game is not yet over; current turn O
+some player won: NotOver wee!!
 X X _
 _ O _
 _ _ _
 
-Game is not yet over; current turn X
+some player won: NotOver wee!!
 X X O
 _ O _
 _ _ _
 
-Game is not yet over; current turn O
+some player won: NotOver wee!!
 X X O
 _ O _
 X _ _
 
-Game is not yet over; current turn X
+some player won: NotOver wee!!
 X X O
 O O _
 X _ _
 
-Game is not yet over; current turn O
+some player won: NotOver wee!!
 X X O
 O O X
 X _ _
 
-Game is not yet over; current turn X
+some player won: NotOver wee!!
 X X O
 O O X
 X O _
 
-Game ended in a draw
+some player won: Draw wee!!
 X X O
 O O X
 X O X
