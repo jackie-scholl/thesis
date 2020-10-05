@@ -1,2 +1,54 @@
 [1 of 1] Compiling Main             ( Haskell.hs, Haskell.o )
-Linking out/haskell_exec ...
+
+[;1mHaskell.hs:99:1: [;1m[35mwarning:[0m[0m[;1m [[;1m[35m-Wtype-defaults[0m[0m[;1m][0m[0m[;1m
+    • Defaulting the following constraints to type ‘Double’
+        (Ord b0)
+          arising from a type equality forall b.
+                                       (Ord b, Fractional b) =>
+                                       [Maybe Player] -> Int
+                                       ~
+                                       [Maybe Player] -> Int
+          at Haskell.hs:(99,1)-(116,51)
+        (Fractional b0)
+          arising from a type equality forall b.
+                                       (Ord b, Fractional b) =>
+                                       [Maybe Player] -> Int
+                                       ~
+                                       [Maybe Player] -> Int
+          at Haskell.hs:(99,1)-(116,51)
+    • When checking that the inferred type
+        chooseMove :: forall b.
+                      (Ord b, Fractional b) =>
+                      [Maybe Player] -> Int
+      is as general as its inferred signature
+        chooseMove :: [Maybe Player] -> Int[0m[0m
+[;1m[34m   |[0m[0m
+[;1m[34m99 |[0m[0m [;1m[35mmoveBest board = move board (chooseMove board)[0m[0m
+[;1m[34m   |[0m[0m[;1m[35m ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^...[0m[0m
+[0m[0m[0m
+[;1mHaskell.hs:99:1: [;1m[35mwarning:[0m[0m[;1m [[;1m[35m-Wtype-defaults[0m[0m[;1m][0m[0m[;1m
+    • Defaulting the following constraints to type ‘Double’
+        (Ord b0)
+          arising from a type equality forall b.
+                                       (Ord b, Fractional b) =>
+                                       [Maybe Player] -> [Maybe Player]
+                                       ~
+                                       [Maybe Player] -> [Maybe Player]
+          at Haskell.hs:(99,1)-(116,51)
+        (Fractional b0)
+          arising from a type equality forall b.
+                                       (Ord b, Fractional b) =>
+                                       [Maybe Player] -> [Maybe Player]
+                                       ~
+                                       [Maybe Player] -> [Maybe Player]
+          at Haskell.hs:(99,1)-(116,51)
+    • When checking that the inferred type
+        moveBest :: forall b.
+                    (Ord b, Fractional b) =>
+                    [Maybe Player] -> [Maybe Player]
+      is as general as its inferred signature
+        moveBest :: [Maybe Player] -> [Maybe Player][0m[0m
+[;1m[34m   |[0m[0m
+[;1m[34m99 |[0m[0m [;1m[35mmoveBest board = move board (chooseMove board)[0m[0m
+[;1m[34m   |[0m[0m[;1m[35m ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^...[0m[0m
+[0m[0m[0mLinking out/haskell_exec ...

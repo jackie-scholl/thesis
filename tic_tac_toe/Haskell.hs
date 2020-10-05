@@ -4,44 +4,44 @@ import Data.List
 
 data Player = X | O deriving (Eq, Show)
 data EndState = Winner Player | Draw | NotOver deriving (Eq, Show)
-type Board = [Maybe Player]
-type Coord = Int
 
 
-emptyBoard :: Board
+
+
+
 emptyBoard = replicate 9 Nothing
 
-getEmpties :: Board -> [Coord]
+
 getEmpties board =
 	let isSpaceEmpty coord = isNothing $ board !! coord
 	in  filter isSpaceEmpty [0..8]
 
-countEmpties :: Board -> Int
+
 countEmpties = length . getEmpties
 
-getCurrentTurn :: Board -> Player
+
 getCurrentTurn board = if ((countEmpties board) `mod` 2 == 0) then O else X
 
-getCoord :: Board -> Coord -> Maybe Player
+
 getCoord = (!!)
 
-printBoard :: Board -> String
+
 printBoard b =
 	let
-		getRows :: Board -> [[Maybe Player]]
+
 		getRows = chunksOf 3
 		
-		printSpace :: Maybe Player -> String
+
 		printSpace (Just p) = show p
 		printSpace (Nothing) = "_"
 		
-		printRow :: [Maybe Player] -> String
+
 		printRow spaces = concat $ map printSpace spaces
 
-		printBoard' :: Board -> String
+
 		printBoard' board = intercalate "\n" $ map printRow $ getRows board
 		
-		printGameState :: Board -> String
+
 		printGameState board = case getEndState board of
 			NotOver  -> "Game is not yet over; current turn: "
 				++ show (getCurrentTurn board) ++ "\n"
@@ -50,16 +50,16 @@ printBoard b =
 	in
 		printGameState b ++ printBoard' b ++ "\n\n"
 
-getEndState :: Board -> EndState
+
 getEndState board =
 	let
-		allLines :: [[Coord]]
+
 		allLines = [[0, 1, 2], [3, 4, 5], [6, 7, 8], -- horizontals
 					[0, 3, 6], [1, 4, 7], [2, 5, 8], --verticals
 					[0, 4, 8], [2, 4, 6]] -- diagonals
 
 		-- ugly but works
-		testLine :: [Maybe Player] -> Maybe Player
+
 		testLine line = case line of
 			(Just X : Just X : Just X : []) -> Just X
 			(Just O : Just O : Just O : []) -> Just O
@@ -68,18 +68,18 @@ getEndState board =
 			--if (all (== Just O) line) then (Just O) else
 			--(Nothing)
 
-		extractedLines :: [[Maybe Player]]
+
 		extractedLines = map (map (getCoord board)) allLines
 
 
 
 
 
-		firstJusts :: [Maybe a] -> Maybe a
+
 		firstJusts = Data.Foldable.asum
 
 
-		possibleWinner :: Maybe Player
+
 		possibleWinner = firstJusts $ map testLine extractedLines
 		
 	in case possibleWinner of
@@ -88,17 +88,17 @@ getEndState board =
 
 
 
-move :: Board -> Coord -> Board
+
 move board coord
 	| isJust $ getCoord board coord = undefined
 	| otherwise = modifyAtIndex board coord $ const $ Just $ getCurrentTurn board
 
 
 
-moveBest :: Board -> Board
+
 moveBest board = move board (chooseMove board)
 
-score :: Board -> Player -> Double
+
 score board player =
 	let
 		endState = getEndState board
@@ -108,7 +108,7 @@ score board player =
 		NotOver -> recursiveScore
 		(Winner x)  -> if (x == player) then 1 else -1
 
-chooseMove :: Board -> Coord
+
 chooseMove board =
 	let
 		moveScore coord = score (move board coord) (getCurrentTurn board)
@@ -117,39 +117,39 @@ chooseMove board =
 
 
 
-main :: IO ()
+
 main = 
 	let
-		initialBoard :: Board
+
 		initialBoard = move (move emptyBoard 0) 4
 
-		gameSequence :: [Board]
+
 		gameSequence = take 8 $ iterate moveBest $ initialBoard
 
-		printGame :: IO ()
+
 		printGame = mapM_ putStrLn $ map printBoard $ gameSequence
 	in
 		printGame
 
 -- Utility funtions        
 
-chunksOf :: Int -> [x] -> [[x]]
+
 chunksOf n xs
 	| length xs <= n = [xs] 
 	| otherwise = thing1 $ splitAt n xs
 	where
-		thing1 :: ([x], [x]) -> [[x]]
+
 		thing1 (a, b) = cons a $ chunksOf n b
 
-cons :: a -> [a] -> [a]
+
 cons x xs = x : xs
 
-modifyAtIndex :: [a] -> Int -> (a -> a) -> [a]
+
 modifyAtIndex list index modifier 
 	| (index >= length list) || (index < 0) = list -- index out of bounds; could throw error instead?
 	| otherwise = (take index list) ++ [modifier $ list !! index] ++ (drop (index + 1) list)
 
-argmax :: (Ord b) => (a -> b) -> [a] -> a
+
 argmax _ [] = undefined
 argmax f (y:ys) = argmaxHelper y (f y) f ys
 	where
