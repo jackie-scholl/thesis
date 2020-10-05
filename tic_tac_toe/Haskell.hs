@@ -121,10 +121,10 @@ main :: IO ()
 main = 
 	let
 		initialBoard :: Board
-		initialBoard = move emptyBoard 0
+		initialBoard = move (move emptyBoard 0) 4
 
 		gameSequence :: [Board]
-		gameSequence = take 9 $ iterate moveBest $ initialBoard
+		gameSequence = take 8 $ iterate moveBest $ initialBoard
 
 		printGame :: IO ()
 		printGame = mapM_ putStrLn $ map printBoard $ gameSequence

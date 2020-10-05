@@ -141,11 +141,11 @@
 (score sample-board2 'X)
 (score sample-board2 'O)
 
-(define sample3 (move empty-board 0))
+(define sample3 (move (move empty-board 0) 4))
 
 (define (helper board) (move board (choose-move board)))
 
-(define mystream (stream-take (iterate helper sample3) 9))
+(define mystream (stream-take (iterate helper sample3) 8))
 (for ([board (in-stream mystream)]) (display (print-board board)))
 
 
