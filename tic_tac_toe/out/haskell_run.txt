@@ -4,45 +4,45 @@ _O_
 ___
 
 
-Game is not yet over; current turn: O
-XX_
+Player X won!
+X_X
 _O_
 ___
 
 
-Game is not yet over; current turn: X
-XXO
+Player X won!
+XOX
 _O_
 ___
 
 
-Game is not yet over; current turn: O
-XXO
-_O_
+Player X won!
+XOX
+XO_
+___
+
+
+Player X won!
+XOX
+XOO
+___
+
+
+Player X won!
+XOX
+XOO
 X__
 
 
-Game is not yet over; current turn: X
-XXO
-OO_
-X__
-
-
-Game is not yet over; current turn: O
-XXO
-OOX
-X__
-
-
-Game is not yet over; current turn: X
-XXO
-OOX
+Player X won!
+XOX
+XOO
 XO_
 
 
-Game ended in a draw.
-XXO
-OOX
+Player X won!
+XOX
+XOO
 XOX
 
 
