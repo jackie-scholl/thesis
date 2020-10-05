@@ -2,6 +2,8 @@ all:
 	#!/usr/bin/env fish
 	cd ./tic_tac_toe
 	rm -f Haskell.hi
+	rm -rf out
+	mkdir out
 	ghc -Wall -fno-warn-tabs -fno-warn-missing-signatures \
 		-fdiagnostics-color=always -o out/haskell_exec  Haskell.hs 2>&1 \
 		| tee out/haskell_compile.txt
