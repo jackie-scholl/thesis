@@ -1,48 +1,17 @@
-
-some player won: X wee!!
-X O X
-O X O
-X O X
-
-0
-0
-Game is not yet over; current turn X
-X _ _
-_ O _
-_ _ _
-
-Game is not yet over; current turn O
-X X _
-_ O _
-_ _ _
-
-Game is not yet over; current turn X
-X X O
-_ O _
-_ _ _
-
-Game is not yet over; current turn O
-X X O
-_ O _
-X _ _
-
-Game is not yet over; current turn X
-X X O
-O O _
-X _ _
-
-Game is not yet over; current turn O
-X X O
-O O X
-X _ _
-
-Game is not yet over; current turn X
-X X O
-O O X
-X O _
-
-Game ended in a draw
-X X O
-O O X
-X O X
-
+modulo: contract violation
+  expected: integer?
+  given: '(0 1 2 3 4 5 6 7 8)
+  argument position: 1st
+  other arguments...:
+   2
+  context...:
+   /home/jackie/Documents/thesis/tic_tac_toe/racket.rkt:123:52
+   /nix/store/q800gfhyxjbbc37hhj422zx4bqy88as1-racket-7.8/share/racket/collects/racket/contract/private/arrow-higher-order.rkt:375:33
+   /home/jackie/.racket/7.8/pkgs/rebellion/private/reducer.rkt:143:27
+   /home/jackie/.racket/7.8/pkgs/rebellion/private/static-name.rkt:114:10: reduce-all
+   /nix/store/q800gfhyxjbbc37hhj422zx4bqy88as1-racket-7.8/share/racket/collects/racket/contract/private/arrow-val-first.rkt:486:18
+   "/home/jackie/Documents/thesis/tic_tac_toe/racket.rkt": [running body]
+   temp35_0
+   for-loop
+   run-module-instance!
+   perform-require!

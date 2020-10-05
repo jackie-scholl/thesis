@@ -1,2 +1,12 @@
 [1 of 1] Compiling Main             ( Haskell.hs, Haskell.o )
-Linking out/haskell_exec ...
+
+[;1mHaskell.hs:20:16: [;1m[31merror:[0m[0m[;1m[0m[0m[;1m
+    • Couldn't match type ‘[Coord]’ with ‘Int’
+      Expected type: Board -> Int
+        Actual type: Board -> [Coord]
+    • In the expression: getEmpties
+      In an equation for ‘countEmpties’: countEmpties = getEmpties[0m[0m
+[;1m[34m   |[0m[0m
+[;1m[34m20 |[0m[0m countEmpties = [;1m[31mgetEmpties[0m[0m
+[;1m[34m   |[0m[0m[;1m[31m                ^^^^^^^^^^[0m[0m
+[0m[0m[0m

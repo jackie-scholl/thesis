@@ -17,7 +17,7 @@ getEmpties board =
 	in  filter isSpaceEmpty [0..8]
 
 countEmpties :: Board -> Int
-countEmpties = length . getEmpties
+countEmpties = getEmpties
 
 getCurrentTurn :: Board -> Player
 getCurrentTurn board = if ((countEmpties board) `mod` 2 == 0) then O else X
