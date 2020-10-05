@@ -1,0 +1,48 @@
+
+some player won: X wee!!
+X O X
+O X O
+X O X
+
+0
+0
+Game is not yet over; current turn X
+X _ _
+_ O _
+_ _ _
+
+Game is not yet over; current turn O
+X X _
+_ O _
+_ _ _
+
+Game is not yet over; current turn X
+X X O
+_ O _
+_ _ _
+
+Game is not yet over; current turn O
+X X O
+_ O _
+X _ _
+
+Game is not yet over; current turn X
+X X O
+O O _
+X _ _
+
+Game is not yet over; current turn O
+X X O
+O O X
+X _ _
+
+Game is not yet over; current turn X
+X X O
+O O X
+X O _
+
+Game ended in a draw
+X X O
+O O X
+X O X
+
