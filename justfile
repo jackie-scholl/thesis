@@ -9,4 +9,5 @@ all:
 		| tee out/haskell_compile.txt
 	./out/haskell_exec &>out/haskell_run.txt
 	racket -t racket.rkt &>out/racket_run.txt
+	diff -sq -x haskell_exec out expected
 
