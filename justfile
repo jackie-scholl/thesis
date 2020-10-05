@@ -1,3 +1,7 @@
+default:
+	#!/usr/bin/env fish
+	time just all
+
 all:
 	#!/usr/bin/env fish
 	cd ./tic_tac_toe
