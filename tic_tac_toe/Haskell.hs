@@ -33,7 +33,6 @@ printBoard b =
 		
 		printSpace :: Maybe Player -> String
 		printSpace (Just p) = show p
-		printSpace (Nothing) = "_"
 		
 		printRow :: [Maybe Player] -> String
 		printRow spaces = concat $ map printSpace spaces

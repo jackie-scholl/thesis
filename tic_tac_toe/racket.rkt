@@ -32,7 +32,7 @@
 	(define (rows board) (chunks-of 3 board))
 
 	(define (print-space p) 
-		(match p [(present 'X) "X"] [(present 'O) "O"] [absent "_"])
+		(match p [(present 'X) "X"] [(present 'O) "O"])
 	)
 
 	(define (print-row row) (string-join (map print-space row)))

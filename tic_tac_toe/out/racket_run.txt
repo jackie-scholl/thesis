@@ -1,3 +1,15 @@
+match: no matching clause for #<absent>
+  location...:
+   racket.rkt:35:16
+  context...:
+   /nix/store/fg8a38fcn0g58cdm5566q7nfiwv0vbcw-racket-7.8/share/racket/collects/racket/match/runtime.rkt:24:0: match:error
+   /home/jackie/Documents/thesis/tic_tac_toe/racket.rkt:38:8: print-row
+   /home/jackie/Documents/thesis/tic_tac_toe/racket.rkt:28:0: print-board
+   "/home/jackie/Documents/thesis/tic_tac_toe/racket.rkt": [running body]
+   temp35_0
+   for-loop
+   run-module-instance!
+   perform-require!
 
 some player won: X wee!!
 X O X
@@ -6,43 +18,3 @@ X O X
 
 0
 0
-Game is not yet over; current turn X
-X _ _
-_ O _
-_ _ _
-
-Game is not yet over; current turn O
-X X _
-_ O _
-_ _ _
-
-Game is not yet over; current turn X
-X X O
-_ O _
-_ _ _
-
-Game is not yet over; current turn O
-X X O
-_ O _
-X _ _
-
-Game is not yet over; current turn X
-X X O
-O O _
-X _ _
-
-Game is not yet over; current turn O
-X X O
-O O X
-X _ _
-
-Game is not yet over; current turn X
-X X O
-O O X
-X O _
-
-Game ended in a draw
-X X O
-O O X
-X O X
-
