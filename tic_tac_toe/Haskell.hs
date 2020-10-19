@@ -9,7 +9,7 @@ type Coord = Int
 
 
 emptyBoard :: Board
-emptyBoard = replicate 9 Nothing
+emptyBoard = replicate 8 Nothing
 
 getEmpties :: Board -> [Coord]
 getEmpties board =

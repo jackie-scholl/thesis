@@ -8,7 +8,7 @@
 ; 'X and 'O
 
 
-(define empty-board (make-list 9 absent))
+(define empty-board (make-list 8 absent))
 
 
 (define (get-empties board)
