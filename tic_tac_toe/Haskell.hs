@@ -135,7 +135,7 @@ main =
 
 chunksOf :: Int -> [x] -> [[x]]
 chunksOf n xs
-	| length xs <= n = [xs] 
+	| length xs < n = [xs] 
 	| otherwise = thing1 $ splitAt n xs
 	where
 		thing1 :: ([x], [x]) -> [[x]]

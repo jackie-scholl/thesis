@@ -4,10 +4,12 @@ _O_
 ___
 
 
+
 Game is not yet over; current turn: O
 XX_
 _O_
 ___
+
 
 
 Game is not yet over; current turn: X
@@ -16,10 +18,12 @@ _O_
 ___
 
 
+
 Game is not yet over; current turn: O
 XXO
 _O_
 X__
+
 
 
 Game is not yet over; current turn: X
@@ -28,10 +32,12 @@ OO_
 X__
 
 
+
 Game is not yet over; current turn: O
 XXO
 OOX
 X__
+
 
 
 Game is not yet over; current turn: X
@@ -40,9 +46,11 @@ OOX
 XO_
 
 
+
 Game ended in a draw.
 XXO
 OOX
 XOX
+
 
 
