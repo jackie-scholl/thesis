@@ -1,2 +1,14 @@
 [1 of 1] Compiling Main             ( Haskell.hs, Haskell.o )
-Linking out/haskell_exec ...
+
+[;1mHaskell.hs:83:60: [;1m[31merror:[0m[0m[;1m[0m[0m[;1m
+    • Couldn't match type ‘Maybe Player’ with ‘Player’
+      Expected type: [[Player]]
+        Actual type: [[Maybe Player]]
+    • In the second argument of ‘map’, namely ‘extractedLines’
+      In the second argument of ‘($)’, namely
+        ‘map testLine extractedLines’
+      In the expression: firstJusts $ map testLine extractedLines[0m[0m
+[;1m[34m   |[0m[0m
+[;1m[34m83 |[0m[0m                 possibleWinner = firstJusts $ map testLine [;1m[31mextractedLines[0m[0m
+[;1m[34m   |[0m[0m[;1m[31m                                                            ^^^^^^^^^^^^^^[0m[0m
+[0m[0m[0m

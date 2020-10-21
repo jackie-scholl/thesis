@@ -1,5 +1,5 @@
 
-some player won: X wee!!
+Game ended in a draw
 X O X
 O X O
 X O X
@@ -23,26 +23,26 @@ _ _ _
 
 Game is not yet over; current turn O
 X X O
-_ O _
-X _ _
+X O _
+_ _ _
 
 Game is not yet over; current turn X
 X X O
-O O _
-X _ _
+X O O
+_ _ _
 
 Game is not yet over; current turn O
 X X O
-O O X
+X O O
 X _ _
 
 Game is not yet over; current turn X
 X X O
-O O X
+X O O
 X O _
 
 Game ended in a draw
 X X O
-O O X
+X O O
 X O X
 

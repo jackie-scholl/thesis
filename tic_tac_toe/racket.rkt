@@ -62,8 +62,8 @@
 
 	(define (test-line to-test)
 		(match to-test
-			[(list (present 'X) (present 'X) (present 'X)) 'X]
-			[(list (present 'O) (present 'O) (present 'O)) 'O]
+			[(list 'X 'X 'X) 'X]
+			[(list 'O 'O 'O) 'O]
 			;[(list 'O 'O 'O) 'O]
 			[(list a b c) absent]
 		)

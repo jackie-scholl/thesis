@@ -59,10 +59,10 @@ getEndState board =
 					[0, 4, 8], [2, 4, 6]] -- diagonals
 
 		-- ugly but works
-		testLine :: [Maybe Player] -> Maybe Player
+		testLine :: [Player] -> Maybe Player
 		testLine line = case line of
-			(Just X : Just X : Just X : []) -> Just X
-			(Just O : Just O : Just O : []) -> Just O
+			(X : X : X : []) -> Just X
+			(O : O : O : []) -> Just O
 			_ -> Nothing
 			--if (all (== Just X) line) then (Just X) else
 			--if (all (== Just O) line) then (Just O) else
