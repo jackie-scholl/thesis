@@ -6,10 +6,10 @@ modulo: contract violation
    2
   context...:
    /home/jackie/Documents/thesis/tic_tac_toe/racket.rkt:123:52
-   /nix/store/q800gfhyxjbbc37hhj422zx4bqy88as1-racket-7.8/share/racket/collects/racket/contract/private/arrow-higher-order.rkt:375:33
+   /nix/store/ibsni2wm7qdbka8hj3wmn287q43pmkkh-racket-7.8/share/racket/collects/racket/contract/private/arrow-higher-order.rkt:375:33
    /home/jackie/.racket/7.8/pkgs/rebellion/private/reducer.rkt:143:27
    /home/jackie/.racket/7.8/pkgs/rebellion/private/static-name.rkt:114:10: reduce-all
-   /nix/store/q800gfhyxjbbc37hhj422zx4bqy88as1-racket-7.8/share/racket/collects/racket/contract/private/arrow-val-first.rkt:486:18
+   /nix/store/ibsni2wm7qdbka8hj3wmn287q43pmkkh-racket-7.8/share/racket/collects/racket/contract/private/arrow-val-first.rkt:486:18
    "/home/jackie/Documents/thesis/tic_tac_toe/racket.rkt": [running body]
    temp35_0
    for-loop

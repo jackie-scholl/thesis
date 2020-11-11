@@ -11,12 +11,10 @@ type Coord = Int
 emptyBoard :: Board
 emptyBoard = replicate 9 Nothing
 
-getEmpties :: Board -> [Coord]
 getEmpties board =
 	let isSpaceEmpty coord = isNothing $ board !! coord
 	in  filter isSpaceEmpty [0..8]
 
-countEmpties :: Board -> Int
 countEmpties = getEmpties
 
 getCurrentTurn :: Board -> Player

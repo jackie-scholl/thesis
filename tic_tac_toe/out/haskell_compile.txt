@@ -1,12 +1,23 @@
 [1 of 1] Compiling Main             ( Haskell.hs, Haskell.o )
 
-[;1mHaskell.hs:20:16: [;1m[31merror:[0m[0m[;1m[0m[0m[;1m
-    • Couldn't match type ‘[Coord]’ with ‘Int’
-      Expected type: Board -> Int
-        Actual type: Board -> [Coord]
-    • In the expression: getEmpties
-      In an equation for ‘countEmpties’: countEmpties = getEmpties[0m[0m
+[;1mHaskell.hs:21:28: [;1m[31merror:[0m[0m[;1m[0m[0m[;1m
+    • No instance for (Integral [Int]) arising from a use of ‘mod’
+    • In the first argument of ‘(==)’, namely
+        ‘(countEmpties board) `mod` 2’
+      In the expression: ((countEmpties board) `mod` 2 == 0)
+      In the expression:
+        if ((countEmpties board) `mod` 2 == 0) then O else X[0m[0m
 [;1m[34m   |[0m[0m
-[;1m[34m20 |[0m[0m countEmpties = [;1m[31mgetEmpties[0m[0m
-[;1m[34m   |[0m[0m[;1m[31m                ^^^^^^^^^^[0m[0m
+[;1m[34m21 |[0m[0m getCurrentTurn board = if ([;1m[31m(countEmpties board) `mod` 2[0m[0m == 0) then O else X
+[;1m[34m   |[0m[0m[;1m[31m                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m[0m
+[0m[0m[0m
+[;1mHaskell.hs:21:55: [;1m[31merror:[0m[0m[;1m[0m[0m[;1m
+    • No instance for (Num [Int]) arising from the literal ‘2’
+    • In the second argument of ‘mod’, namely ‘2’
+      In the first argument of ‘(==)’, namely
+        ‘(countEmpties board) `mod` 2’
+      In the expression: ((countEmpties board) `mod` 2 == 0)[0m[0m
+[;1m[34m   |[0m[0m
+[;1m[34m21 |[0m[0m getCurrentTurn board = if ((countEmpties board) `mod` [;1m[31m2[0m[0m == 0) then O else X
+[;1m[34m   |[0m[0m[;1m[31m                                                       ^[0m[0m
 [0m[0m[0m
