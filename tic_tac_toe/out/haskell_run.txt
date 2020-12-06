@@ -1,1 +1,22 @@
+*** Exception (reporting due to +RTS -xc): (THUNK_1_0), stack trace: 
+  GHC.List.CAF
+  --> evaluated by: Main.getEmpties.isSpaceEmpty,
+  called from Main.getEmpties,
+  called from Main.countEmpties,
+  called from Main.getCurrentTurn,
+  called from Main.move,
+  called from Main.main.initialBoard,
+  called from Main.main,
+  called from Main.CAF:main
+  --> evaluated by: Main.countEmpties,
+  called from Main.getCurrentTurn,
+  called from Main.move,
+  called from Main.main.initialBoard,
+  called from Main.main,
+  called from Main.CAF:main
+  --> evaluated by: Main.getCurrentTurn,
+  called from Main.move,
+  called from Main.main.initialBoard,
+  called from Main.main,
+  called from Main.CAF:main
 haskell_exec: Prelude.!!: index too large
